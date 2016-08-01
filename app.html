@@ -1,0 +1,69 @@
+<!doctype html>
+<html><head>
+	<meta charset="utf-8">
+	<meta name="description" content="firebase-moredb : search with text and link documents across collections in firebase">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>metaschema</title>
+	<!--firebase code snippet-->
+<script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37258371-3', 'auto');
+  ga('send', 'pageview');
+</script>
+	<!--fontawesome hotlink by github cdn-->
+	<link href="https://cdn.rawgit.com/FortAwesome/Font-Awesome/master/css/font-awesome.min.css" rel="stylesheet" />
+	<!-- metaschema oxygen library for firebase
+	<script src="https://cdn.rawgit.com/metaschema/oxyzen/master/oxyzen.js"></script>
+	<script src="https://rawgit.com/metaschema/oxyzen/master/oxyzen.js"></script> -->	
+	<script src="../oxyzen/oxyzen.js"></script>
+	<!-- metaschema tau render
+	<script src="https://cdn.rawgit.com/metaschema/tau/master/tau.js"></script>
+	<script src="https://rawgit.com/metaschema/tau/master/tau.js"></script>-->	
+	<script src="../tau/tau.js"></script>
+	<!--style for this app-->	
+	<link href="app.css" rel="stylesheet" />
+	<!--script for this app-->	
+	<script src="firebase-snippet.js"></script>
+	<script src="app.js"></script>
+</head><body onload="app.init()">
+	<div id="prelogindiv">Checking login status...</div>
+	<div id="logindiv" style="display:none">
+	<div class="info"><h3>login</h3></div>
+		<button onclick="app.login('google')"><i class="fa fa-google"></i></button>
+		<button onclick="app.login('facebook')"><i class="fa fa-facebook"></i></button>
+		<button onclick="app.login('twitter')"><i class="fa fa-twitter"></i></button>
+		<button onclick="app.login('github')"><i class="fa fa-github"></i></button>
+	</div>
+	<div id="hiddentarget"> </div>
+	<div id="metaschema-app" style="display:none"><section id="leftwrap"><div class="top-bar"><button
+				onclick="gid('newtagdialog').showModal()" class="fa-tagplus" title="Add a new tag..."><i class="fa fa-tag"> </i><i class="fa fa-plus-circle"> </i>
+				</button><button onclick="app.refreshtree()" title="Refresh the tag tree"><i class="fa fa-refresh"> </i></button><button
+				onclick="app.crossearch()" title="Cross search with tags"><i class="fa fa-binoculars"> </i></button>
+			</div>
+			<div id="tag-tree" ondrop="fix(event);app.tag_to_root('X%KEY','%TITLE')" ondragover="app.allowdrop(event);">loading...</div>
+		</section><section id="mainwrap">
+			<div class="top-bar">
+			 <button onclick="app.toggletree(this)" title="Toggle the tag tree" class="pushed"><i class="fa fa-dedent"></i>
+				</button><button onclick="app.gototab('homeview',this);" class="pushed tabs-b" title="Switch between home view and results view"><i class="fa fa-home"></i>
+				</button><button class="fa-docplus" onclick="gid('newdialog').showModal()" title="Add document"><i class="fa fa-file"> </i><i class="fa fa-plus-circle"> </i>
+				</button><button id="b_resultsview" onclick="app.gototab('resultsview',this);" class="tabs-b" title="results view"><i class="fa fa-list"></i>
+				</button><button onclick="app.gototab('detailsview',this);" class="tabs-b" title="detailsview"><i class="fa fa-file"></i>
+				</button><form onsubmit="try{app.search(this.firstChild.value);}catch(ex){console.log(ex);}return false;" style="display: inline-block;" action="#" mathod="post"><input
+					type="text" id="pattern" placeholder="search pattern..."/><button
+					onclick="this.parentElement.submit()" title="perform search"><i class="fa fa-search"></i>
+				</button></form><button onclick="gid('seldialog').showModal()" title="select collections"><i class="fa fa-check-square-o"></i>
+				</button>
+				<div class="fr"><button onclick="app.logout();return false;" title="perform search"><i class="fa fa-key"></i>
+				</button><button class="button" onclick="toggleFullScreen();this.classList.toggle('pushed');this.childNodes[0].classList.toggle('fa-expand');this.childNodes[0].classList.toggle('fa-compress');" title="fullscreen..."><i class="fa fa-expand"> </i>
+				</button><button onclick="" title="info"><i class="fa fa-diamond"></i></button></div></div>
+				<div id="homeview"><i class="fr fa fa-user" id="username" style=""></i>Try searching for strawberry or apple or blue or brown....</div><div
+					id="resultsview"></div><div
+					id="detailsview"></div>
+		</section><section id="rightwrap" class="fly-out">
+		<!--roba a scomparsa laterale -->
+		</section></div></body>
